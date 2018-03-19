@@ -1,5 +1,5 @@
 #Python libraries that we need to import for our bot
-import random, os
+import os
 from flask import Flask, request
 from pymessenger.bot import Bot
 
@@ -28,9 +28,9 @@ def receive_message():
                 #Facebook Messenger ID for user so we know where to send response back to
                 recipient_id = message['sender']['id']
                 if message['message'].get('text'):
-                    response_sent_text = get_message()
-                    # send_message(recipient_id, response_sent_text)
-                    send_message(recipient_id, message['message'].get('text'))
+                    query = message['message'].get('text')
+                    response_sent_text = get_message(query)
+                    send_message(recipient_id, response_sent_text)
     return "Message Processed"
 
 
@@ -42,11 +42,19 @@ def verify_fb_token(token_sent):
     return 'Invalid verification token'
 
 
-#chooses a random message to send to the user
-def get_message():
-    sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
-    # return selected item to the user
-    return random.choice(sample_responses)
+#chooses a message to send to the user based on key words
+def get_message(query):
+    #simple rule-based response
+    if any(word in 'tuition fees cost' for word in query):
+        response = "The program costs $6,000."
+    elif any(word in 'length timing duration commitment' for word in query):
+        response = """The program takes 4-12 months depending on your weekly time commitment.
+                      Overall, the course takes 500-700 hours depending on your prior background."""
+    else:
+        response = "Sorry the bot does not understand your question. Please try a different one."
+
+    # return message to user
+    return response
 
 #uses PyMessenger to send response to user
 def send_message(recipient_id, response):
