@@ -27,8 +27,8 @@ def receive_message():
             if message.get('message'):
                 #Facebook Messenger ID for user so we know where to send response back to
                 recipient_id = message['sender']['id']
-                if message['message'].get('text'):
-                    query = message['message'].get('text')
+                query = message['message'].get('text')
+                if query:
                     response_sent_text = get_message(query)
                     send_message(recipient_id, response_sent_text)
     return "Message Processed"
@@ -45,9 +45,14 @@ def verify_fb_token(token_sent):
 #chooses a message to send to the user based on key words
 def get_message(query):
     #simple rule-based response
-    if any(word in 'tuition fees cost' for word in query):
+    tuition_set = set('tuition', 'fees', 'cost')
+    length_set = set('length', 'timing', 'duration', 'commitment')
+
+    query_set = set(query.split())
+
+    if query_set.intersection(tuition_set):
         response = "The program costs $6,000."
-    elif any(word in 'length timing duration commitment' for word in query):
+    elif query_set.intersection(length_set):
         response = """The program takes 4-12 months depending on your weekly time commitment.
                       Overall, the course takes 500-700 hours depending on your prior background."""
     else:
