@@ -45,8 +45,8 @@ def verify_fb_token(token_sent):
 #chooses a message to send to the user based on key words
 def get_message(query):
     #simple rule-based response
-    tuition_set = set('tuition', 'fees', 'cost')
-    length_set = set('length', 'timing', 'duration', 'commitment')
+    tuition_set = set(['tuition', 'fees', 'cost'])
+    length_set = set(['length', 'timing', 'duration', 'commitment'])
 
     query_set = set(query.split())
 
