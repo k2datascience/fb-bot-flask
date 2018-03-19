@@ -53,8 +53,7 @@ def get_message(query):
     if query_set.intersection(tuition_set):
         response = "The program costs $6,000."
     elif query_set.intersection(length_set):
-        response = """The program takes 4-12 months depending on your weekly time commitment.
-                      Overall, the course takes 500-700 hours depending on your prior background."""
+        response = "The program takes 4-12 months depending on your weekly time commitment. Overall, the course takes 500-700 hours depending on your prior background."
     else:
         response = "Sorry the bot does not understand your question. Please try a different one."
 
